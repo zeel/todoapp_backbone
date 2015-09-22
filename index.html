@@ -1,0 +1,38 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+  	<div class = "container">
+      	<form action="" onsubmit="return false;">
+	        <input type="checkbox">
+	        <label>Todo:</label>
+	        <input type = "text" required id="new-todo">
+	        <input type="submit" id="add-todo">
+		</form>
+		<div class="todo_container">
+		  	<div class="todo_box">
+		  	</div>
+			<div>
+				<span><span>{{countActive}}</span> items are remaining</span>
+				<span><a ng-class="{active : showType == 'all'}" ng-click="changeShowType('all')" href="">All</a></span>
+				<span><a ng-class="{active : showType == 'active'}" ng-click="changeShowType('active')" href="">Active</a></span>
+				<span><a ng-class="{active : showType == 'completed'}" ng-click="changeShowType('completed')" href="">Completed</a></span>
+				<span><a ng-click = 'clearCompleted()' href="">Clear Completed</a></span>
+			</div>
+      </div>
+    </div>
+</body>
+<script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="bower_components/backbone/backbone.js"></script>
+<script id="todo-item-template" type="text/template">
+	<div style="display:inline-block">
+		<input type="checkbox" />
+		<span class="<%= (hasCompleted) ? 'strikeout' : '' %>" ><%- title %></span>
+	</div>
+	<a class = "remove_todo_close" href="#" >x</a>
+</script>
+<script type="text/javascript" src="js/app.js"></script>
+
+</html>
