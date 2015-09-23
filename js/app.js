@@ -17,8 +17,8 @@ $(function() {
 		tagName : 'div',
 		template : _.template($("#todo-item-template").html()),
 		initialize : function() {
-			_.bindAll(this, 'render', 'removeTodo', 'unrender'); // every function that uses 'this' as the current object should be in here
-			this.model.on('destroy', this.unrender);
+			// _.bindAll(this, 'render', 'removeTodo', 'unrender'); // every function that uses 'this' as the current object should be in here
+			this.model.on('destroy', this.unrender.bind(this));
 			this.render();
 		},
 		render : function() {
@@ -32,7 +32,7 @@ $(function() {
 			this.model.destroy();
 		},
 		unrender : function(){
-			$(this.el).remove();
+			this.remove();
 		}
 	});
 	var ToDoList = Backbone.Collection.extend({
