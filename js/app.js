@@ -61,12 +61,14 @@ $(function() {
 		statusBarTemplate : _.template($("#todo-statusbar-template").html()),
 		events : {
 			"click #add-todo" : "createToDoOnEnter",
+			"click #check-all" : "completeAll"
 		},
 		initialize : function() {
 			this.todos = new ToDoList();
 			this.input = this.$("#new-todo");
 			this.todos.bind("add", this.addOne, this);
 			this.todos.bind("all", this.render, this);
+			this.allCheckedBox = this.$("#check-all")[0];
 			this.render();
 		},
 		render : function() {
@@ -88,11 +90,17 @@ $(function() {
 			$(".todo_box", this.el).append(todoItemView.render().el);
 		},
 		render : function() {
+			var remaining = this.todos.remaining().length;
 			//update the active todo count
-			$("#status_bar", this.el).html(this.statusBarTemplate({'remaining' : this.todos.remaining().length, showType : 'all'}));
-			// $("#active-todo-count", this.el).html();
+			$("#status_bar", this.el).html(this.statusBarTemplate({'remaining' : remaining, showType : 'all'}));
+			this.allCheckedBox.checked = !remaining;
+		},
+		completeAll : function() {
+			var done = this.allCheckedBox.checked;
+			this.todos.each(function(todo){
+				todo.save({hasCompleted : done})
+			})
 		}
-
 	});
 	var todolistview = new ToDoListView();
 
