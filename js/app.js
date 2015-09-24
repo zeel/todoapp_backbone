@@ -1,7 +1,7 @@
 $(function() {
-	//dummy function to not to report error when saved/deleted
-	Backbone.sync = function(method, model, success, error){
-  }
+	// //dummy function to not to report error when saved/deleted
+	// Backbone.sync = function(method, model, success, error){
+ //  }
 	var ToDoItem = Backbone.Model.extend({
 		// validate : function(attrs, options){
 		// 	//title should not be empty
@@ -37,7 +37,8 @@ $(function() {
 			"click a.remove-todo-close" : "removeTodo",
 			"click #check-hasCompleted" : "todoCompleted",
 			"dblclick #todo-title" : "editToDo",
-			"blur .edit" : "closeEditMode"
+			"blur .edit" : "closeEditMode",
+			"keypress .edit" : "saveEditedToDo"
 		},
 		editToDo : function() {
 			this.$el.addClass("editing");
@@ -62,10 +63,15 @@ $(function() {
 				this.removeTodo();
 			}
 			this.$el.removeClass("editing");
+		},
+		//if pressed enter save the todo
+		saveEditedToDo : function(ev) {
+			if(ev.keyCode == 13) this.closeEditMode();
 		}
 	});
 	var ToDoList = Backbone.Collection.extend({
 		model : ToDoItem,
+		localStorage: new Backbone.LocalStorage("todolist"),
 		//returns counts of todos that are active
 		remaining : function() {
 			return this.where({hasCompleted : false});
@@ -112,6 +118,11 @@ $(function() {
 		initialize : function() {
 			this.todos = new ToDoList();
 			this.showType = 'all';
+			this.todos.fetch();
+			var that = this;
+			_(this.todos.models).each(function(item){
+				that.addOne(item);
+			})
 			this.input = this.$("#new-todo");
 			this.todos.bind("add", this.addOne, this);
 			this.todos.bind("all", this.render, this);
@@ -125,16 +136,13 @@ $(function() {
 		},
 		addToDo : function(toDoTitle) {
 			var todo = new ToDoItem({title : toDoTitle});
-			this.todos.add(todo);
+			this.todos.create(todo);
 		},
 		addOne : function (toDoItem) {
 			var todoItemView = new TodoItemView({model : toDoItem});
 			$(".todo_box", this.el).append(todoItemView.render().el);
 		},
 		render : function() {
-			// _(this.todos.models).each(function(item){
-			// 	this.renderToDo(item);
-			// })
 			var remaining_length = this.todos.remaining().length;
 			// update the active todo count
 			$("#status_bar", this.el).html(this.statusBarTemplate({'remaining' : remaining_length, showType : this.showType}));
