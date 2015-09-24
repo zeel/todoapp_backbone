@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-  	<div class = "container">
+  	<div id = "todo-app">
       	<form action="" onsubmit="return false;">
 	        <input type="checkbox" id="check-all">
 	        <label>Todo:</label>
@@ -11,8 +11,8 @@
 	        <input type="submit" id="add-todo">
 		</form>
 		<div class="todo_container">
-		  	<div class="todo_box">
-		  	</div>
+		  	<ul class="todo_box">
+		  	</ul>
 			<div id="status_bar">
 			</div>
       </div>
@@ -22,21 +22,21 @@
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="bower_components/backbone/backbone.js"></script>
 <script id="todo-item-template" type="text/template">
-	<div style="display:inline-block">
+	<div class="view">
 		<input type="checkbox" <%= (hasCompleted) ? 'checked' : '' %> id="check-hasCompleted"/>
-		<span class="<%= (hasCompleted) ? 'strikeout' : '' %>" ><%- title %></span>
+		<span class="<%= (hasCompleted) ? 'strikeout' : '' %>" id="todo-title"><%- title %></span>
+		<a class = "remove-todo-close" href="#" >x</a>
 	</div>
-	<a class = "remove_todo_close" href="#" >x</a>
+	<input type="text" class="edit" value="<%- title %>"/>
 </script>
 <script id="todo-statusbar-template" type="text/template">
 	<div>
 		<span><span id="active-todo-count"></span> <%= remaining %> <%= (remaining == 1) ? 'item' : 'items' %> are remaining</span>
-		<span><a class="<%= (showType == 'all') ? 'active' : '' %>" id = "show-type-all" ng-click="changeShowType('all')" href="#">All</a></span>
-		<span><a class="<%= (showType == 'active') ? 'active' : '' %>" id = "show-type-active" href="#">Active</a></span>
-		<span><a class="<%= (showType == 'completed') ? 'active' : '' %>" id = "show-type-completed" href="#">Completed</a></span>
+		<span><a class = "show-type-link <%= (showType == 'all') ? 'active' : '' %>" data-target = "all" href="#">All</a></span>
+		<span><a class = "show-type-link <%= (showType == 'active') ? 'active' : '' %>" data-target = "active" href="#">Active</a></span>
+		<span><a class = "show-type-link <%= (showType == 'completed') ? 'active' : '' %>" data-target = "completed" href="#">Completed</a></span>
 		<span><a id = "clear-completed" href="#">Clear Completed</a></span>
 	</div>
 </script>
 <script type="text/javascript" src="js/app.js"></script>
-
 </html>
