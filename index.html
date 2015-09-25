@@ -18,10 +18,7 @@
       </div>
     </div>
 </body>
-<script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
-<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="bower_components/backbone/backbone.js"></script>
-<script type="text/javascript" src="bower_components/backbone.localStorage/backbone.localStorage.js"></script>
+<script type="text/javascript" data-main="js/main" src="bower_components/requirejs/require.js"></script>
 <script id="todo-item-template" type="text/template">
 	<div class="view">
 		<input type="checkbox" <%= (hasCompleted) ? 'checked' : '' %> id="check-hasCompleted"/>
@@ -39,5 +36,4 @@
 		<span><a id = "clear-completed" href="#">Clear Completed</a></span>
 	</div>
 </script>
-<script type="text/javascript" src="js/app.js"></script>
 </html>
