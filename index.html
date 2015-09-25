@@ -1,14 +1,14 @@
 <html>
 <head>
+<title>To Do</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
   	<div id = "todo-app">
-      	<form action="" onsubmit="return false;">
+  		<h3> todos </h3>
+      	<form action="" onsubmit="return false;" id="todo-form">
 	        <input type="checkbox" id="check-all">
-	        <label>Todo:</label>
-	        <input type = "text" required id="new-todo">
-	        <input type="submit" id="add-todo">
+	        <input type = "text" required id="new-todo" placeholder="what needs to be done">
 		</form>
 		<div class="todo_container">
 		  	<ul class="todo_box">
@@ -21,14 +21,14 @@
 <script type="text/javascript" data-main="js/main" src="bower_components/requirejs/require.js"></script>
 <script id="todo-item-template" type="text/template">
 	<div class="view">
-		<input type="checkbox" <%= (hasCompleted) ? 'checked' : '' %> id="check-hasCompleted"/>
+		<input type="checkbox" <%= (hasCompleted) ? 'checked' : '' %> class="check-hasCompleted"/>
 		<span class="<%= (hasCompleted) ? 'strikeout' : '' %>" id="todo-title"><%- title %></span>
 		<a class = "remove-todo-close" href="#" >x</a>
 	</div>
 	<input type="text" class="edit" value="<%- title %>"/>
 </script>
 <script id="todo-statusbar-template" type="text/template">
-	<div>
+	<div id="statusbar">
 		<span><span id="active-todo-count"></span> <%= remaining %> <%= (remaining == 1) ? 'item' : 'items' %> are remaining</span>
 		<span><a class = "show-type-link <%= (showType == 'all') ? 'active' : '' %>" data-target = "all" href="#">All</a></span>
 		<span><a class = "show-type-link <%= (showType == 'active') ? 'active' : '' %>" data-target = "active" href="#">Active</a></span>

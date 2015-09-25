@@ -1,24 +1,27 @@
-define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage'], function($, _, Backbone, Store) {
+define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','common'], function($, _, Backbone, Store, Common) {
 	var TodoItemView = Backbone.View.extend({
 		tagName : 'li',
 		template : _.template($("#todo-item-template").html()),
 		initialize : function() {
+			var that = this;
 			// _.bindAll(this, 'render', 'removeTodo', 'unrender'); // every function that uses 'this' as the current object should be in here
-			this.model.on('change', this.render.bind(this));
-			this.model.on('destroy', this.unrender.bind(this));
-			this.render();
+			that.model.on('change', that.render.bind(that));
+			that.model.on('destroy', that.unrender.bind(that));
+			that.render();
 		},
 		render : function() {
-			$(this.el).html(this.template(this.model.toJSON()));
-			this.input = this.$(".edit");
-			return this;
+			var that = this;
+			$(that.el).html(that.template(that.model.toJSON()));
+			that.input = that.$(".edit");
+			return that;
 		},
 		events :{
 			"click a.remove-todo-close" : "removeTodo",
-			"click #check-hasCompleted" : "todoCompleted",
+			"click .check-hasCompleted" : "todoCompleted",
 			"dblclick #todo-title" : "editToDo",
+			"keypress .edit" : "saveEditedToDo",
+			"keydown .edit" : "cancelEditMode",
 			"blur .edit" : "closeEditMode",
-			"keypress .edit" : "saveEditedToDo"
 		},
 		editToDo : function() {
 			this.$el.addClass("editing");
@@ -35,18 +38,24 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage'], function($,
 		},
 		//feature to remove the todo if the text is empty then remove the todo and update the todo based on new textvalue
 		closeEditMode : function() {
-			var todoval = this.input.val();
+			var that = this, todoval = that.input.val();
 			if(todoval) {
-				this.model.save({title : todoval})
+				that.model.save({title : todoval})
 			}
 			else {
-				this.removeTodo();
+				that.removeTodo();
 			}
-			this.$el.removeClass("editing");
+			that.$el.removeClass("editing");
+		},
+		//if pressed enter save the todo
+		cancelEditMode : function(ev) {
+			if(ev.keyCode == Common.ESCAPE_KEY) {
+				this.$el.removeClass("editing");
+			}
 		},
 		//if pressed enter save the todo
 		saveEditedToDo : function(ev) {
-			if(ev.keyCode == 13) this.closeEditMode();
+			if(ev.keyCode == Common.ENTER_KEY) this.closeEditMode();
 		}
 	});
 	return TodoItemView;

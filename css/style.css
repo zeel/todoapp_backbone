@@ -1,6 +1,11 @@
 #todo-app {
   width: 40%;
   margin: 20px auto;
+  text-align: center;
+}
+#todo-app h3{
+  display: inline-block;
+  margin : 0;
 }
 #todo-app .todo_box {
   border-bottom: 1px solid black;
@@ -12,7 +17,7 @@
   border-top: 1px solid black;
 }
 #todo-app .active {
-  border: 1px solid black;
+  border: 1px solid purple;
   border-radius: 5px;
 }
 #todo-app .strikeout {
@@ -23,14 +28,26 @@
 }
 #todo-app li {
   position: relative;
+  height: 1.5em;
+  font-size: 1.5em;
 }
 #todo-app .view .remove-todo-close {
+  display: none;
   position: absolute;
   right : 5px;
   top: 0;
 }
+#todo-app .view:hover {
+/*  border-bottom: 1px gray solid;
+  border-top: 1px gray solid;*/
+  background-color: rgba(128,0,128, 0.2);
+}
+#todo-app .view:hover .remove-todo-close {
+  display: block;
+}
 #todo-app .todo_box li .view {
   display: inline-block;
+  width: 100%;
 }
 #todo-app .todo_box li.editing .view {
   display: none;
@@ -41,4 +58,27 @@
 }
 #todo-app .todo_box li.editing .edit {
   display: block;
+}
+#todo-app #new-todo, #todo-app .edit{
+  width : 85%;
+  height : 40px;
+  font-size: 1.2em;
+  padding-left: 10px;
+}
+#todo-app .check-hasCompleted, #todo-app #check-all{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height : 23px;
+  vertical-align:middle;
+}
+#todo-app a {
+  color: inherit;
+  text-decoration: none;
+}
+#todo-app #todo-form{
+  position: relative;
+}
+#todo-app #statusbar{
+  margin-top:10px;
 }

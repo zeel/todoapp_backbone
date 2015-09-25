@@ -5,7 +5,7 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 		mode : "show",
 		statusBarTemplate : _.template($("#todo-statusbar-template").html()),
 		events : {
-			"click #add-todo" : "createToDoOnEnter",
+			"submit #todo-form" : "createToDoOnEnter",
 			"click #check-all" : "completeAll",
 			"click .show-type-link" : "changeToDoShowType",
 			"click #clear-completed": "clearCompletedToDo"
@@ -20,44 +20,45 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 		 * display todos based upon filter like all/active/complete
 		 */
 		changeToDoShowType : function(ev) {
-			$(".todo_box", this.el).html("");
-			this.showType = $(ev.currentTarget).data("target");
+			var that = this;
+			that.$(".todo_box").html("");
+			that.showType = $(ev.currentTarget).data("target");
 			var visible_todos;
-			if(this.showType == "all") {
-				visible_todos = this.todos.models;
+			if(that.showType == "all") {
+				visible_todos = that.todos.models;
 			}
-			else if(this.showType == "active"){
-				visible_todos = this.todos.remaining();
+			else if(that.showType == "active"){
+				visible_todos = that.todos.remaining();
 			}
-			else if(this.showType == "completed"){
-				visible_todos = this.todos.done();
+			else if(that.showType == "completed"){
+				visible_todos = that.todos.done();
 			}
-			var self = this;
 			visible_todos.forEach(function(todo){
-				self.addOne(todo);
+				that.addOne(todo);
 			});
-			this.render();
+			that.render();
 		},
 		initialize : function() {
-			var that = this;
-			this.todos = new ToDoList();
-			this.showType = 'all';
+			var that = this,todos;
+			that.todos = new ToDoList();
+			todos = that.todos;
+			that.showType = 'all';
 			//fetch from localstorage and add into the view
-			this.todos.fetch();
-			var that = this;
-			_(this.todos.models).each(function(item){
+			todos.fetch();
+			_(todos.models).each(function(item){
 				that.addOne(item);
 			})
-			this.input = this.$("#new-todo");
-			this.todos.bind("add", this.addOne, this);
-			this.todos.bind("all", this.render, this);
-			this.allCheckedBox = this.$("#check-all")[0];
-			this.render();
+			that.input = that.$("#new-todo");
+			todos.bind("add", that.addOne, that);
+			todos.bind("all", that.render, that);
+			that.allCheckedBox = that.$("#check-all")[0];
+			that.render();
 		},
 		createToDoOnEnter : function () {
-			if(!this.input.val()) return;
-			this.addToDo(this.input.val());
-			this.input.val("");
+			var that = this;
+			if(!that.input.val()) return;
+			that.addToDo(that.input.val());
+			that.input.val("");
 		},
 		addToDo : function(toDoTitle) {
 			var todo = new ToDoItem({title : toDoTitle});
@@ -65,13 +66,13 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 		},
 		addOne : function (toDoItem) {
 			var todoItemView = new TodoItemView({model : toDoItem});
-			$(".todo_box", this.el).append(todoItemView.render().el);
+			this.$(".todo_box").append(todoItemView.render().el);
 		},
 		render : function() {
-			var remaining_length = this.todos.remaining().length;
+			var that = this, remaining_length = that.todos.remaining().length;
 			// update the active todo count
-			$("#status_bar", this.el).html(this.statusBarTemplate({'remaining' : remaining_length, showType : this.showType}));
-			this.allCheckedBox.checked = !remaining_length;
+			that.$("#status_bar").html(that.statusBarTemplate({'remaining' : remaining_length, showType : that.showType}));
+			that.allCheckedBox.checked = !remaining_length;
 		},
 		completeAll : function() {
 			var done = this.allCheckedBox.checked;
