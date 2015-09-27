@@ -1,11 +1,16 @@
 #todo-app {
   width: 40%;
   margin: 20px auto;
-  text-align: center;
+}
+#todo-app .todo-title{
+  vertical-align: middle;
+}
+#todo-app .isHidden{
+  display: none;
 }
 #todo-app h3{
-  display: inline-block;
   margin : 0;
+  text-align: center;
 }
 #todo-app .todo_box {
   border-bottom: 1px solid black;
@@ -37,11 +42,6 @@
   right : 5px;
   top: 0;
 }
-#todo-app .view:hover {
-/*  border-bottom: 1px gray solid;
-  border-top: 1px gray solid;*/
-  background-color: rgba(128,0,128, 0.2);
-}
 #todo-app .view:hover .remove-todo-close {
   display: block;
 }
@@ -60,17 +60,12 @@
   display: block;
 }
 #todo-app #new-todo, #todo-app .edit{
-  width : 85%;
   height : 40px;
   font-size: 1.2em;
   padding-left: 10px;
 }
-#todo-app .check-hasCompleted, #todo-app #check-all{
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height : 23px;
-  vertical-align:middle;
+#todo-app #new-todo{
+width: 96%;
 }
 #todo-app a {
   color: inherit;
@@ -81,4 +76,8 @@
 }
 #todo-app #statusbar{
   margin-top:10px;
+}
+/*to override user agent style sheet*/
+#todo-app form{
+  margin-bottom: 10px;
 }

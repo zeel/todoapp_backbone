@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos', 'collections/todos', 'views/todos'], function($,_,Backbone, backboneLocalStorage, ToDoItem, ToDoList, TodoItemView) {
+define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos', 'collections/todos', 'views/todos', 'common'], function($,_,Backbone, backboneLocalStorage, ToDoItem, ToDoList, TodoItemView, Common) {
 	'use strict';
 	var ToDoListView = Backbone.View.extend({
 		el : "body",
@@ -21,22 +21,19 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 		 */
 		changeToDoShowType : function(ev) {
 			var that = this;
-			that.$(".todo_box").html("");
 			that.showType = $(ev.currentTarget).data("target");
-			var visible_todos;
-			if(that.showType == "all") {
-				visible_todos = that.todos.models;
-			}
-			else if(that.showType == "active"){
-				visible_todos = that.todos.remaining();
-			}
-			else if(that.showType == "completed"){
-				visible_todos = that.todos.done();
-			}
-			visible_todos.forEach(function(todo){
-				that.addOne(todo);
-			});
+			Common.TODO_FILTER = that.showType;
+			//trigger filter event to notify todos collection
+			that.todos.trigger("filter");
 			that.render();
+		},
+		//fucntion which will show/hide the todo based upon the current filter
+		filterOne : function(todo) {
+			todo.trigger('visible');
+		},
+		//function which will trigger filter all the
+		filterAll : function(){
+			this.todos.each(this.filterOne, this);
 		},
 		initialize : function() {
 			var that = this,todos;
@@ -51,6 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 			that.input = that.$("#new-todo");
 			todos.bind("add", that.addOne, that);
 			todos.bind("all", that.render, that);
+			todos.bind("filter", that.filterAll, that);
 			that.allCheckedBox = that.$("#check-all")[0];
 			that.render();
 		},

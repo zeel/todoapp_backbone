@@ -8,7 +8,7 @@
   		<h3> todos </h3>
       	<form action="" onsubmit="return false;" id="todo-form">
 	        <input type="checkbox" id="check-all">
-	        <input type = "text" required id="new-todo" placeholder="what needs to be done">
+	        <input type = "text" required id="new-todo" placeholder="What needs to be done?">
 		</form>
 		<div class="todo_container">
 		  	<ul class="todo_box">
@@ -22,7 +22,7 @@
 <script id="todo-item-template" type="text/template">
 	<div class="view">
 		<input type="checkbox" <%= (hasCompleted) ? 'checked' : '' %> class="check-hasCompleted"/>
-		<span class="<%= (hasCompleted) ? 'strikeout' : '' %>" id="todo-title"><%- title %></span>
+		<span class="todo-title <%= (hasCompleted) ? 'strikeout' : '' %>"><%- title %></span>
 		<a class = "remove-todo-close" href="#" >x</a>
 	</div>
 	<input type="text" class="edit" value="<%- title %>"/>
