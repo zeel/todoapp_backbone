@@ -25,22 +25,28 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','common'], fu
 			"keydown .edit" : "cancelEditMode",
 			"blur .edit" : "closeEditMode",
 		},
+		//display editing mode
 		editToDo : function() {
 			this.$el.addClass("editing");
 			this.input.focus();
 		},
+		//mark todo completed
 		todoCompleted : function() {
 			this.model.toggle();
 		},
+		//remove todo model
 		removeTodo : function() {
 			this.model.destroy();
 		},
+		//remove todo view
 		unrender : function(){
 			this.remove();
 		},
+		//check if todo should be displayed or hidden based on selected filter
 		toggleHidden: function() {
 			this.$el.toggleClass("isHidden", this.checkHidden());
 		},
+		//returns true if todo should be hidden
 		checkHidden : function() {
 			var completed = this.model.get("hasCompleted"), todoFilter = Common.TODO_FILTER;
 			return (todoFilter == 'completed' && !completed) || (todoFilter == 'active' && completed);

@@ -4,6 +4,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 			hasCompleted : false,
 			title : ""
 		},
+		//toggel todo hasCompletedß
 		toggle : function() {
 			this.save({hasCompleted : !this.get("hasCompleted")});
 		}

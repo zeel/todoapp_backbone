@@ -2,9 +2,6 @@
   width: 40%;
   margin: 20px auto;
 }
-#todo-app .todo-title{
-  vertical-align: middle;
-}
 #todo-app .isHidden{
   display: none;
 }
@@ -12,13 +9,13 @@
   margin : 0;
   text-align: center;
 }
-#todo-app .todo_box {
+#todo-app #todo-box {
   border-bottom: 1px solid black;
   list-style: none;
   margin: 0;
   padding: 0px 3px;
 }
-#todo-app .todo_container .todo_box:first-child {
+#todo-app #todo-container #todo-box:first-child {
   border-top: 1px solid black;
 }
 #todo-app .active {
@@ -45,19 +42,26 @@
 #todo-app .view:hover .remove-todo-close {
   display: block;
 }
-#todo-app .todo_box li .view {
+#todo-app #todo-box li .view {
   display: inline-block;
   width: 100%;
 }
-#todo-app .todo_box li.editing .view {
+#todo-app #todo-box li.editing .view {
   display: none;
 }
-#todo-app .todo_box .edit {
+#todo-app #todo-box .edit {
   display: none;
   width : 100%;
 }
-#todo-app .todo_box li.editing .edit {
+#todo-app #todo-box li.editing .edit {
   display: block;
+}
+/*as vertical align property does not inherit we need to add this property to all elements*/
+#todo-app #check-all, #todo-app .view .check-hasCompleted, #todo-app .view .remove-todo-close, #todo-app .view .todo-title {
+  vertical-align: middle;
+}
+#todo-app .view .todo-title, #todo-app #new-todo {
+  margin-left: 3%;
 }
 #todo-app #new-todo, #todo-app .edit{
   height : 40px;
@@ -65,7 +69,7 @@
   padding-left: 10px;
 }
 #todo-app #new-todo{
-width: 96%;
+width: 93%;
 }
 #todo-app a {
   color: inherit;

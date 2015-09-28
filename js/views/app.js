@@ -10,15 +10,12 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 			"click .show-type-link" : "changeToDoShowType",
 			"click #clear-completed": "clearCompletedToDo"
 		},
+		//remove the completed todos from the collection
 		clearCompletedToDo : function() {
 			var completedToDo = this.todos.done();
-			completedToDo.forEach(function(todo) {
-				todo.destroy();
-			})
+			_.invoke(completedToDo, 'destroy');
 		},
-		/*
-		 * display todos based upon filter like all/active/complete
-		 */
+		// display todos based upon filter like all/active/completed
 		changeToDoShowType : function(ev) {
 			var that = this;
 			that.showType = $(ev.currentTarget).data("target");
@@ -46,6 +43,7 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 				that.addOne(item);
 			})
 			that.input = that.$("#new-todo");
+			//bind with the events
 			todos.bind("add", that.addOne, that);
 			todos.bind("all", that.render, that);
 			todos.bind("filter", that.filterAll, that);
@@ -58,20 +56,24 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 			that.addToDo(that.input.val());
 			that.input.val("");
 		},
+		//add the model into collection with given title
 		addToDo : function(toDoTitle) {
 			var todo = new ToDoItem({title : toDoTitle});
 			this.todos.create(todo);
 		},
+		//add todo model view into collection view
 		addOne : function (toDoItem) {
 			var todoItemView = new TodoItemView({model : toDoItem});
-			this.$(".todo_box").append(todoItemView.render().el);
+			this.$("#todo-box").append(todoItemView.render().el);
 		},
+		//render the status bar and allcheckbox again everytime anything changes to update details
 		render : function() {
 			var that = this, remaining_length = that.todos.remaining().length;
 			// update the active todo count
-			that.$("#status_bar").html(that.statusBarTemplate({'remaining' : remaining_length, showType : that.showType}));
+			that.$("#status-bar").html(that.statusBarTemplate({'remaining' : remaining_length, showType : that.showType}));
 			that.allCheckedBox.checked = !remaining_length;
 		},
+		//mark all the todos completed
 		completeAll : function() {
 			var done = this.allCheckedBox.checked;
 			this.todos.each(function(todo){
