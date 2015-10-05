@@ -1,5 +1,6 @@
 #todo-app {
-  width: 40%;
+  /*using fixed size as to overcome resizing problems*/
+  width: 500px;
   margin: 20px auto;
 }
 #todo-app .isHidden{
@@ -69,7 +70,7 @@
   padding-left: 10px;
 }
 #todo-app #new-todo{
-width: 93%;
+width: 92%;
 }
 #todo-app a {
   color: inherit;
