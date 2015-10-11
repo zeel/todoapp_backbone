@@ -55,6 +55,7 @@ define(['jquery', 'underscore', 'backbone', 'backboneLocalStorage','models/todos
 			if(!that.input.val()) return;
 			that.addToDo(that.input.val());
 			that.input.val("");
+			return false;
 		},
 		//add the model into collection with given title
 		addToDo : function(toDoTitle) {
