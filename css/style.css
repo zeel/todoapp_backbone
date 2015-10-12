@@ -14,7 +14,7 @@
   border-bottom: 1px solid black;
   list-style: none;
   margin: 0;
-  padding: 0px 3px;
+  padding: 0px 3px 10px 0px;
 }
 #todo-app #todo-container #todo-box:first-child {
   border-top: 1px solid black;
@@ -46,6 +46,8 @@
 #todo-app #todo-box li .view {
   display: inline-block;
   width: 100%;
+  border-bottom: 1px solid #B6DAFD;
+  padding-bottom: 4px;
 }
 #todo-app #todo-box li.editing .view {
   display: none;
@@ -64,13 +66,27 @@
 #todo-app .view .todo-title, #todo-app #new-todo {
   margin-left: 3%;
 }
+#todo-app li:before{
+    position: absolute;
+    top: 0;
+    left: 29px;
+    z-index: 10;
+    width: 3px;
+    height: 100%;
+    border: 1px solid #FCCDC7;
+    border-width: 0 1px;
+    content: '';
+}
+#todo-app li.editing:before{
+  border: none;
+}
 #todo-app #new-todo, #todo-app .edit{
-  height : 40px;
   font-size: 1.2em;
   padding-left: 10px;
 }
 #todo-app #new-todo{
-width: 92%;
+  width: 92%;
+  height : 40px;
 }
 #todo-app a {
   color: inherit;
